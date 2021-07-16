@@ -1,42 +1,86 @@
-readFile();
+const fs = require('fs');
+const rawdata = fs.readFileSync('hypoport.json');
+const stockdata = JSON.parse(rawdata);
 
 // saves results in file
-let date1 = new Date(2010, 7, 5);
-let date2 = new Date(2020, 8, 5);
-let date3 = new Date(2030, 9, 5);
-let avPrice = 111.08;
+let date1 = new Date(lowestValue() * 1000);
+let date2 = new Date(highestValue() * 1000);
+let date3 = new Date(highestDifference() * 1000);
+let avPrice = findAverage();
 
 writeToFile(date1,date2,date3,avPrice);
 
 
 // --- Functions ---
 
-function readFile(){
-
-    const fs = require('fs');
-
-    let rawdata = fs.readFileSync('hypoport.json');
-    let stockdata = JSON.parse(rawdata);
+function lowestValue(){
 
     let sortedStockData = stockdata.prices.sort(mycomparator);
 
     function mycomparator(a,b) {
-        return b.low - a.low;
+        return a.low - b.low;
     }
 
-    console.log(sortedStockData[0].date);
+    let i = 0;
+    while (sortedStockData[i].low == null) {
+        i++;
+    }
+    return sortedStockData[i].date;
 
+}
+
+function highestValue(){
+
+    let sortedStockData = stockdata.prices.sort(mycomparator);
+
+    function mycomparator(a,b) {
+        return b.high - a.high;
+    }
+
+    let i = 0;
+    while (sortedStockData[i].high == null) {
+        i++;
+    }
+    return sortedStockData[i].date;
+
+}
+
+function highestDifference(){
+
+    let sortedStockData = stockdata.prices.sort(mycomparator);
+
+    function mycomparator(a,b) {
+        return (b.open - b.close) - (a.open - a.close);
+    }
+
+    let i = 0;
+    while (sortedStockData[i].open == null || sortedStockData[i].close == null) {
+        i++;
+    }
+    return sortedStockData[i].date;
+
+}
+
+function findAverage(){
+    let average = 0;
+    let count = 0;
+    for (let i = 0; i < stockdata.prices.length; i++) {
+        if(stockdata.prices[i].close != null){
+            average += stockdata.prices[i].adjclose;
+            // here you could also use the 'close'! wasn't 100% sure which one was meant
+            count++;
+        }
+    }
+    return parseFloat(average / count).toFixed(8);
 }
 
 function writeToFile(date1, date2, date3, avPrice) {
 
-    const fs = require('fs')
-
     // Data which will be written
-    let dataArray = ['day with the lowest rate: (23 Mar 2020) ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date1),
-    '\nday with the highest rate: (05 Oct 2020) ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date2),
-    '\nday with the highest difference: (03 Nov 2020) ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date3),
-    '\naverage closing price of the share: (382.08) ' + avPrice];
+    let dataArray = ['day with the lowest rate: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date1),
+    '\nday with the highest rate: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date2),
+    '\nday with the highest difference: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date3),
+    '\naverage closing price of the share: ' + avPrice];
     
     // Write data in 'outcome.txt'
     fs.writeFile('outcome.txt', dataArray, (err) => {
