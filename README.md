@@ -16,3 +16,6 @@ You can find the current Epoch / Unix timestamp here:
 https://www.epoch101.com/
 
 ### 👉 You can find my results within "outcome.txt"
+
+
+As an alternative to this small JS tool, the task could have been solved very nicely with Java as well. But since I applied for a position with JavaScript development, I wanted to use it consciously.
