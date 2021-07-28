@@ -77,9 +77,9 @@ function findAverage(){
 function writeToFile(date1, date2, date3, avPrice) {
 
     // Data which will be written
-    let dataArray = ['day with the lowest rate: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date1),
-    '\nday with the highest rate: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date2),
-    '\nday with the highest difference: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date3),
+    let dataArray = ['date with the lowest rate: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date1),
+    '\ndate with the highest rate: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date2),
+    '\ndate with the highest difference: ' + Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }).format(date3),
     '\naverage closing price of the share: ' + avPrice];
     
     // Write data in 'outcome.txt'

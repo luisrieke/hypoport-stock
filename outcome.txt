@@ -1,4 +1,4 @@
-day with the lowest rate: Mar 23, 2020,
-day with the highest rate: Oct 05, 2020,
-day with the highest difference: Nov 03, 2020,
+date with the lowest rate: Mar 23, 2020,
+date with the highest rate: Oct 05, 2020,
+date with the highest difference: Nov 03, 2020,
 average closing price of the share: 382.20039683
